@@ -9,7 +9,7 @@ const subjects = [
     `Chemicals in our meat`,
     `The ultra wealthy`,
     `Social media presence`,
-    `Linkedin connections`,
+    `LinkedIn connections`,
     `Drones`,
     `Memory capture devices`,
     `Surveillance cameras`,
@@ -40,7 +40,9 @@ const subjects = [
     `Mysterious algorithms`,
     `Internet service providers`,
     `Autonomous vehicles`,
-    `Instant delivery services`
+    `Instant delivery services`,
+    `Nanobots`,
+    `Brain implants`,
 ];
 
 const actions = [
@@ -107,14 +109,13 @@ const twists = [
     `but if you die in the simulation you die in real life`,
     `except it never actually happened`,
     `inside a video game`,
-    `but love wins...maybe`,
+    `but love wins... maybe`,
     `and no one cares because that’s just like normal in this world`,
     `but only minorities are the victim`,
     `but the real villain is society`,
     `but in the end you're not sure if it really happened or not`,
     `but only if you give up 10 years of your life`,
     `but only the wealthy benefit`,
-    `unless you are underwater`,
     `unless you wear a little computer on your temple`,
     `but only on the internet`,
     `but really they robots are more human than we are`,
