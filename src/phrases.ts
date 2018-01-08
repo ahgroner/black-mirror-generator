@@ -1,7 +1,7 @@
 const subjects = [
     `Microchips in our genitals`,
     `Bees`,
-    `Hamster's memories`,
+    `Hamsters' memories`,
     `Robot dogs`,
     `Computers that record our dreams`,
     `World governments`,
@@ -27,7 +27,7 @@ const subjects = [
     `Lifelike clone robots`,
     `John Hamm and a roomba`,
     `Cryptocurrencies`,
-    `A collective hivemind`,
+    `Collective hiveminds`,
     `Simulations`,
     `A.I.s`,
     `Mysterious figures`,
@@ -47,7 +47,7 @@ const subjects = [
     `Webcams`,
     `Cyber terrorists`,
     `Guns with feelings`,
-    `Sequenced genome data`,
+    `Our genomes`,
     `A.I. assistants`
 ];
 
@@ -88,7 +88,7 @@ const actions = [
     `require all our natural resources`,
     `destroy the environment`,
     `cause the end of religion`,
-    `play the marry f**k kill game for real`,
+    `play the marry f*ck kill game for real`,
     `literally extract people’s souls`,
     `create an egalitarian society`,
     `require microtransactions to use them`,
@@ -116,7 +116,7 @@ const twists = [
     `but some of them are evil`,
     `but believe they are doing the right thing`,
     `but really it’s a simulation inside a simulation`,
-    `but everyone in VR so it doesn’t matter`,
+    `but everyone is in VR so it doesn’t matter`,
     `but if you die in the simulation you die in real life`,
     `except it never actually happened`,
     `inside a video game`,
@@ -145,7 +145,7 @@ const twists = [
     `and it’s terrifying (but there are funny parts)`,
     `but you can enter a simulation where the opposite is true`,
     `but it resets every night at midnight`,
-    `but only on Christmas eve`,
+    `but only on Christmas Eve`,
     `but you'll be blind if you don't comply`,
     `but you'll be banished from society if you don't play along`,
 ];

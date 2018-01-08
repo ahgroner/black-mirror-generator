@@ -1,19 +1,34 @@
 import * as React from 'react';
 import phrases from './phrases';
 import styled from 'styled-components';
-
+import Ad from './ad';
 const logo = require('./logo.jpg');
+const loading = require('./loading.gif');
+const refresh = require('./refresh.png');
+
 interface Props {
   className?: {};
 }
+interface State {
+  subjectID?: number;
+  actionID?: number;
+  twistID?: number;
+  showLoader?: boolean;
+}
+
 interface Query {
   s?: number;
   a?: number;
   t?: number;
 }
 
-class App extends React.Component<Props> {
-  state = {subjectID: 0, actionID: 0, twistID: 0};
+class App extends React.Component<Props, State> {
+  state = {
+    subjectID: 0,
+    actionID: 0,
+    twistID: 0,
+    showLoader: true
+  };
   randomIntUpTo = (max: number) => Math.floor(Math.random() * (max + 1));
 
   readParams = (): Query => {
@@ -22,18 +37,22 @@ class App extends React.Component<Props> {
       return {};
     } else {
       return search
-      .substring(1)
-      .split('&')
-      .reduce(
+        .substring(1)
+        .split('&')
+        .reduce(
         (o, kvString) => {
           const [k, v] = kvString.split('=');
-          return {...o, [k]: v };
+          return { ...o, [k]: v };
         },
         {});
     }
   }
   writeParams = (params: {}) => {
-    const paramsToString = 
+    if (!Object.keys(params).length) {
+      window.history.pushState('', 'Black mirror generator', '/');
+      return;
+    }
+    const paramsToString =
       Object.keys(params)
         .map(k => `${k}=${params[k]}`)
         .join('&');
@@ -45,14 +64,29 @@ class App extends React.Component<Props> {
     const subjectID = this.randomIntUpTo(subjects.length - 1);
     const actionID = this.randomIntUpTo(actions.length - 1);
     const twistID = this.randomIntUpTo(twists.length - 1);
-    this.setState({ subjectID, actionID, twistID });
-    this.writeParams({s: subjectID, a: actionID, t: twistID });
+    this.setState({ 
+      subjectID, 
+      actionID, 
+      twistID,
+      showLoader: true
+    });
+    // this.writeParams({
+    //   s: subjectID,
+    //   a: actionID,
+    //   t: twistID,
+    // });
   }
   componentDidMount() {
     const params = this.readParams();
-    const {s, a, t} = params;
+    const { s, a, t } = params;
     if (s && a && t) {
-      this.setState({ subjectID: s, actionID: a, twistID: t });      
+      this.writeParams({});
+      this.setState({
+        subjectID: s,
+        actionID: a,
+        twistID: t,
+        showLoader: true
+      });
     } else {
       this.generateNewPhrase();
     }
@@ -60,36 +94,66 @@ class App extends React.Component<Props> {
   onClickRefresh = () => {
     this.generateNewPhrase();
   }
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (this.state.showLoader) {
+      setTimeout(
+        () => { 
+          this.setState({showLoader: false});
+        }, 
+        750
+      );
+    }
+
+  }
   render() {
-    const {subjects, actions, twists} = phrases;
-    const {className} = this.props;
-    const {subjectID, actionID, twistID} = this.state;
+    const { subjects, actions, twists } = phrases;
+    const { className } = this.props;
+    const { subjectID, actionID, twistID, showLoader } = this.state;
 
     return (
       <div className={`App ${className}`}>
-        <div className="title">
-          <img src={logo} />
-          <div className="subtitle"> episode generator </div>
-        </div>
-        <p className="synopsis">
-          <span className="main-text">{`${subjects[subjectID]} ${actions[actionID]}`}</span>
-          <span className="twist-text"> {twists[twistID]} </span>
-        </p>
-        <button
-          className="refresh-button"
+        <div 
+          className="title"
           onClick={this.onClickRefresh}
         >
-          Refresh
-        </button>
-        <div className="footer">v0.1</div>
+          <img className="logo" src={logo} />
+          <div className="subtitle"> episode generator </div>
+          <img 
+            className="refresh-icon" 
+            src={refresh} 
+          />
+        </div>
+        {showLoader ? (
+          <div className="synopsis">
+            <img src={loading} />
+          </div>
+          ) : (
+            <div className="synopsis">
+              <span className="main-text">{`${subjects[subjectID]} ${actions[actionID]} ${twists[twistID]}`}</span>
+              {/* <div 
+                className="fb-share-button" 
+                data-href="https://www.your-domain.com/your-page.html" 
+                data-layout="button_count"
+              /> */}
+            </div>
+          )}
+        <div className="footer">
+          <Ad />
+          <div className="footer-content">
+            This site is parody and not affiliated with Netfix or Black Mirror | v 1.0.0
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-export default styled(App)`
-  background: black;
-  color: white;
+const color = {
+  screen_blue: 'rgba(216, 221, 231, 1)'
+};
+
+export default styled(App) `
+  color: ${color.screen_blue};
   text-align: center;
   font-family: Montserrat;
   min-height: 100vh;
@@ -99,8 +163,8 @@ export default styled(App)`
     display: flex;
     justify-content: center;
     height: 200px; 
-    overflow: hidden;
-    img {
+    cursor: pointer;
+    .logo {
       position: relative;
       top: 0;
     }
@@ -117,11 +181,15 @@ export default styled(App)`
     text-shadow: 0 0 1.5px rgba(216, 221, 231, 1);
   }
   .synopsis {
-    line-height: 3.5rem;    
+    line-height: 3.5rem;
     font-size: 2rem;
     padding: 0 2rem;
     max-width: 800px;
     margin: 0 auto;
+    height: 20rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .footer {
     position: absolute;
@@ -131,19 +199,22 @@ export default styled(App)`
     font-weight: 100;
     padding-right: 1rem;
   }
-  .refresh-button {
-    padding: .5rem 2rem;
-    background: rgba(255,255,255, .2);
-    border: 1px solid rgba(255,255,255, .2);
-    color: white;
-    font-size: 1rem;
-    border-radius: 5px;
-    margin: 2rem;
-    cursor: pointer;
-    opacity: .8;
-    /* transition: all .2s linear; */
+  .footer-content {
+    padding: .5rem;
+    font-size: 10px;
+    font-family: Montserrat-light;
+    opacity: .5;
   }
-  .refresh-button:hover {
+  .refresh-icon {
+    cursor: pointer;
+    height: 4rem;
+    opacity: .8;
+    position: absolute;
+    bottom: -1.5rem;
+  }
+  .refresh-icon:hover {
+    /* transition: transform 50ms linear; */
+    transform: scale(1.1) rotate(-5deg) ;
     opacity: 1;
   }
   button:focus {outline:0;}
