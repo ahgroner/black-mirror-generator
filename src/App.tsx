@@ -139,10 +139,10 @@ class App extends React.Component<Props, State> {
           )}
         <div className="footer">
           <Ad />
-          <div className="footer-content">
+        </div>
+        <div className="disclaimer">
             This site is parody and not affiliated with Netfix or Black Mirror | v 1.0.0
           </div>
-        </div>
       </div>
     );
   }
@@ -177,7 +177,7 @@ export default styled(App) `
     opacity: 7;
     text-shadow: 0px 1px purple;
     color: transparent;
-    font-size: 1.25rem;
+    font-size: 20px;
     text-shadow: 0 0 1.5px rgba(216, 221, 231, 1);
   }
   .synopsis {
@@ -199,8 +199,11 @@ export default styled(App) `
     font-weight: 100;
     padding-right: 1rem;
   }
-  .footer-content {
+  .disclaimer {
     padding: .5rem;
+    position: absolute;
+    top: 0;
+    right: 0;
     font-size: 10px;
     font-family: Montserrat-light;
     opacity: .5;

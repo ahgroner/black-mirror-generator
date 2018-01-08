@@ -21,7 +21,8 @@ class Ad extends React.Component<any> {
   }
 }
 export default styled(Ad)`
-    max-width: 600px;
-    height: 60px;
+    max-width: 800px;
+    width: 100%;
+    height: 50px;
     margin: auto;
 `;
